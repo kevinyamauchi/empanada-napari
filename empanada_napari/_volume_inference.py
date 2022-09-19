@@ -4,6 +4,8 @@ from napari import Viewer
 from napari.layers import Image 
 from napari_plugin_engine import napari_hook_implementation
 from magicgui import magicgui
+from qtpy.QtWidgets import QScrollArea
+
 
 def volume_inference_widget():
     from napari.qt.threading import thread_worker
@@ -308,6 +310,10 @@ def volume_inference_widget():
 
         worker.start()
 
+    # make the scroll available
+    scroll = QScrollArea()
+    scroll.setWidget(widget._widget._qwidget)
+    widget._widget._qwidget = scroll
     return widget
 
 @napari_hook_implementation(specname='napari_experimental_provide_dock_widget')
